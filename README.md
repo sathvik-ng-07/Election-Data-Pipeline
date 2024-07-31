@@ -1,84 +1,87 @@
-Realtime Election Voting System
-===============================
 
-This repository contains the code for a realtime election voting system. The system is built using Python, Kafka, Spark Streaming, Postgres and Streamlit. The system is built using Docker Compose to easily spin up the required services in Docker containers.
+---
+
+# Realtime Election Voting System
+
+This repository contains the code for a real-time election data pipeline built using Python, Kafka, Spark Streaming, PostgreSQL, and Streamlit. Docker Compose is used to easily spin up the required services in Docker containers.
 
 ## System Architecture
-![system_architecture.jpg](images%2Fsystem_architecture.jpg)
+![System Architecture](images/system_architecture.jpg)
 
 ## System Flow
-![system_flow.jpg](images%2Fsystem_flow.jpg)
+![System Flow](images/system_flow.jpg)
 
 ## System Components
-- **main.py**: This is the main Python script that creates the required tables on postgres (`candidates`, `voters` and `votes`), it also creates the Kafka topic and creates a copy of the `votes` table in the Kafka topic. It also contains the logic to consume the votes from the Kafka topic and produce data to `voters_topic` on Kafka.
-- **voting.py**: This is the Python script that contains the logic to consume the votes from the Kafka topic (`voters_topic`), generate voting data and produce data to `votes_topic` on Kafka.
-- **spark-streaming.py**: This is the Python script that contains the logic to consume the votes from the Kafka topic (`votes_topic`), enrich the data from postgres and aggregate the votes and produce data to specific topics on Kafka.
-- **streamlit-app.py**: This is the Python script that contains the logic to consume the aggregated voting data from the Kafka topic as well as postgres and display the voting data in realtime using Streamlit.
+- **main.py**: Creates tables in PostgreSQL (`candidates`, `voters`, and `votes`), creates Kafka topics, and populates the `votes` table into Kafka. It also includes logic to consume votes from Kafka and produce data to the `voters_topic` on Kafka.
+- **voting.py**: Contains logic to consume votes from the `voters_topic` Kafka topic, generate voting data, and produce data to the `votes_topic` Kafka topic.
+- **spark-streaming.py**: Contains logic to consume votes from the `votes_topic` Kafka topic, enrich the data from PostgreSQL, aggregate votes, and produce data to specific Kafka topics.
+- **streamlit-app.py**: Contains logic to consume aggregated voting data from Kafka and PostgreSQL and display real-time voting data using Streamlit.
 
 ## Setting up the System
-This Docker Compose file allows you to easily spin up Zookkeeper, Kafka and Postgres application in Docker containers. 
+
+This Docker Compose file allows you to easily spin up Zookeeper, Kafka, and PostgreSQL in Docker containers.
 
 ### Prerequisites
-- Python 3.9 or above installed on your machine
-- Docker Compose installed on your machine
-- Docker installed on your machine
-
+- Python 3.9 or above
+- Docker Compose
+- Docker
 
 ### Steps to Run
-1. Clone this repository.
-2. Navigate to the root containing the Docker Compose file.
-3. Run the following command:
 
-```bash
-docker-compose up -d
-```
-This command will start Zookeeper, Kafka and Postgres containers in detached mode (`-d` flag). Kafka will be accessible at `localhost:9092` and Postgres at `localhost:5432`.
+1. **Clone the Repository:**
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
 
-##### Additional Configuration
-If you need to modify Zookeeper configurations or change the exposed port, you can update the `docker-compose.yml` file according to your requirements.
+2. **Start the Services:**
+   Run the following command to start Zookeeper, Kafka, and PostgreSQL containers in detached mode:
+   ```bash
+   docker-compose up -d
+   ```
+   Kafka will be accessible at `localhost:9092` and PostgreSQL at `localhost:5432`.
 
-### Running the App
-1. Install the required Python packages using the following command:
+3. **Install Python Packages:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-pip install -r requirements.txt
-```
+4. **Create Tables and Populate Data:**
+   ```bash
+   python main.py
+   ```
 
-2. Creating the required tables on Postgres and generating voter information on Kafka topic:
+5. **Generate Voting Data:**
+   ```bash
+   python voting.py
+   ```
 
-```bash
-python main.py
-```
+6. **Stream and Aggregate Data:**
+   ```bash
+   python spark-streaming.py
+   ```
 
-3. Consuming the voter information from Kafka topic, generating voting data and producing data to Kafka topic:
+7. **Run the Streamlit App:**
+   ```bash
+   streamlit run streamlit-app.py
+   ```
 
-```bash
-python voting.py
-```
+### Additional Configuration
 
-4. Consuming the voting data from Kafka topic, enriching the data from Postgres and producing data to specific topics on Kafka:
-
-```bash
-python spark-streaming.py
-```
-
-5. Running the Streamlit app:
-
-```bash
-streamlit run streamlit-app.py
-```
+If you need to modify Zookeeper configurations or change the exposed port, update the `docker-compose.yml` file as needed.
 
 ## Screenshots
-### Candidates and Parties information
-![candidates_and_party.png](images/candidates_and_party.png)
+
+### Candidates and Parties Information
+![Candidates and Parties](images/candidates_and_party.png)
+
 ### Voters
-![voters.png](images%2Fvoters.png)
+![Voters](images/voters.png)
 
 ### Voting
-![voting.png](images%2Fvoting.png)
+![Voting](images/voting.png)
 
 ### Dashboard
-![dashboard_image.png](images%2Fdashboard_image.png)
+![Dashboard](images/dashboard_image.png)
 
-## Video
-[![Realtime Voting System Data Engineering](https://img.youtube.com/vi/X-JnC9daQxE/0.jpg)](https://youtu.be/X-JnC9daQxE)
+---
