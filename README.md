@@ -30,8 +30,8 @@ This Docker Compose file allows you to easily spin up Zookeeper, Kafka, and Post
 
 1. **Clone the Repository:**
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/sathvik-ng-07/Election-Data-Pipeline.git
+   cd Election-Data-Pipeline
    ```
 
 2. **Start the Services:**
