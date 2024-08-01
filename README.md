@@ -1,7 +1,7 @@
 
 ---
 
-# Realtime Election Voting System
+# Election Data Pipeline
 
 This repository contains the code for a real-time election data pipeline built using Python, Kafka, Spark Streaming, PostgreSQL, and Streamlit. Docker Compose is used to easily spin up the required services in Docker containers.
 
